@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>회원 탈퇴</h3>
+
+<form method="POST" class="my-3">
+  {% csrf_token %}
+  <p>탈퇴하면 회원 정보를 복구할 수 없습니다.</p>
+  <p>정말로 탈퇴하시겠습니까?</p>
+  <input type="submit" value="탈퇴" class="btn btn-danger btn-sm"/>
+</form>
+
+{% endblock %}
