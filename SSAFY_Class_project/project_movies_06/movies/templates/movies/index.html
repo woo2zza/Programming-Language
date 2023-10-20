@@ -2,6 +2,33 @@
 
 {% block content %}
 
-<h1>Index</h1>
+<a href="{% url "accounts:profile" request.user.username %}"><button type="button" class="btn btn-light">My Profile</button></a>
+<br><br><br><h3>INDEX PAGE</h3>
 
-{% endblock content %}
+<hr>
+  <a href="{% url "movies:create" %}">[CREATE]</a>
+  <hr>
+
+  {% for movie in movies %}
+  <a href="{% url 'movies:detail' movie.pk %}">
+    <p>
+      {{ movie.title }} 
+      {{ movie.content }}
+
+      {% comment %} 좋아요 {% endcomment %}
+      <form action="{% url 'movies:likes' movie.pk %}" method = 'POST'>
+        {% csrf_token %}
+        {% if request.user in movie.like_users.all %}
+          <input type="submit" value = '좋아요 취소'>
+        {% else %}
+          <input type="submit" value = '좋아요'>
+        {% endif %}
+</form>     
+
+    </p>
+  </a>
+  <hr> 
+   {% endfor %}
+
+
+{% endblock %}

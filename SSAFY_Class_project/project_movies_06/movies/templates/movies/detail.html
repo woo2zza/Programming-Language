@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>DETAIL</h1>
+<hr />
+<div>
+  <h3>{{ movie.title }}</h3>
+  <p>{{ movie.content }}</p>
+
+
+  {% if user == movie.user %}
+      <a href="{% url 'movies:update' movie.pk %}">UPDATE</a>
+  
+      <form action="{% url 'movies:delete' movie.pk %}" method='POST'>
+        {% csrf_token %}
+        <button type = 'submit'>DELETE</button>
+      </form>
+  
+  {% endif %}
+      <a href="{% url 'movies:index' %}">BACK</a>
+  <hr>
+  
+  
+  
+  {% comment %} comment {% endcomment %}
+  <h2>댓글 목록</h2>
+  {% for comment in comments %}
+  {{ comment.content }}
+  
+  
+  
+  
+  {% comment %} 댓글 지우기 {% endcomment %}
+    {% if user == comment.user %}
+    <form action="{% url 'movies:comments_delete' movie.pk comment.pk %}" method="POST" style="display: inline;">
+      {% csrf_token %}
+      <input type="submit" value="DELETE" /> 
+    </form>
+    {% endif %}
+  
+
+
+  {% comment %} recomment {% endcomment %}
+  <ul>
+    {% for recomment in comment.recomment_set.all %}
+    <li>{{ recomment.content }}</li>
+    {% endfor %}
+  </ul>
+
+
+  
+  {% comment %} recomment form {% endcomment %}
+  <form action="{% url "movies:recomments_create" movie.pk comment.pk %}" method = 'POST'>
+    {% csrf_token %}
+    {{ recomment_form }}
+    <input type="submit">
+  </form>
+  
+  
+{% endfor %}
+
+
+
+
+<hr />
+{% comment %} 댓글 작성하기 {% endcomment %}
+<form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
+{% csrf_token %}
+{{ comment_form }}
+<input type="submit" />
+</form>
+
+
+
+    
+<hr>
+  <a href="{% url "movies:index" %}">[back]</a>
+{% endblock %}

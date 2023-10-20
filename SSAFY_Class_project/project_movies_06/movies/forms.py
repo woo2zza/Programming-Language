@@ -1,20 +1,19 @@
 from django import forms
-from .models import Movie
+from .models import Movie, Comment, Recomment
 
 
 class MovieModelForm(forms.ModelForm):
-   
-    content = forms.CharField(
-        label='Content',
-        widget=forms.Textarea(
-            attrs={
-                'rows': 5,
-                'cols': 50,
-                'placeholder': 'What are you doing?',
-            }
-        )
-    )
-
     class Meta:
         model = Movie
-        fields = ['content']
+        fields = ('title','content',)
+
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        exclude = ('movie','user')
+
+class RecommentForm(forms.ModelForm):
+    class Meta:
+        model = Recomment
+        fields = ('content',)
