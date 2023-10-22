@@ -1,33 +1,37 @@
 {% extends 'base.html' %}
 
+{% load bootstrap5 %}
+
 {% block content %}
 <h1>DETAIL</h1>
 <hr />
+<p>
+  <a href="{% url 'accounts:profile' movie.user %}" class="btn btn-secondary mr-2">{{ movie.user }}</a>님 작성
+</p>
 <div>
   <h3>{{ movie.title }}</h3>
   <p>{{ movie.content }}</p>
 
 
   {% if user == movie.user %}
-      <a href="{% url 'movies:update' movie.pk %}">UPDATE</a>
-  
+
+  <div class="btn-group">
+      <a href="{% url 'movies:update' movie.pk %}" class="btn btn-light">UPDATE</a>
       <form action="{% url 'movies:delete' movie.pk %}" method='POST'>
         {% csrf_token %}
-        <button type = 'submit'>DELETE</button>
+      </div>
+        <button type = 'submit' class="btn btn-light">DELETE</button>
       </form>
-  
-  {% endif %}
-      <a href="{% url 'movies:index' %}">BACK</a>
+      {% endif %}
+      <a href="{% url 'movies:index' %}" class="btn btn-light">BACK</a>
   <hr>
   
-  
+
   
   {% comment %} comment {% endcomment %}
   <h2>댓글 목록</h2>
   {% for comment in comments %}
-  {{ comment.content }}
-  
-  
+  <p>{{ comment.content }} - <a href="{% url 'accounts:profile' movie.user %}" style="text-decoration: none;">{{ comment.user }}</a></p>
   
   
   {% comment %} 댓글 지우기 {% endcomment %}
@@ -40,39 +44,40 @@
   
 
 
-  {% comment %} recomment {% endcomment %}
-  <ul>
-    {% for recomment in comment.recomment_set.all %}
-    <li>{{ recomment.content }}</li>
-    {% endfor %}
-  </ul>
+    <div class="container">
+      <ul class="list-group">
+        <span>
+          {% if recomments %}
+          <p>
+              {% for recomment in comment.recomment_set.all %}
+                <li class="list-group-item">
+                  <span>{{ recomment.content }} - {{ recomment.user }}</span>
+                </li>
+              {% endfor %}
+            </p>
+          {% endif %}
+        </span>
+        <form action="{% url 'movies:recomments_create' movie.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          {{ recommet_form }}
+          <input type="submit" value="ReComment" class="btn btn-light" />
+        </form>
+      </ul>
+    </div>
 
 
-  
-  {% comment %} recomment form {% endcomment %}
-  <form action="{% url "movies:recomments_create" movie.pk comment.pk %}" method = 'POST'>
-    {% csrf_token %}
-    {{ recomment_form }}
-    <input type="submit">
-  </form>
-  
+<br><br><br>
+
+
+ 
   
 {% endfor %}
-
-
-
-
 <hr />
-{% comment %} 댓글 작성하기 {% endcomment %}
+댓글 작성하기
 <form action="{% url 'movies:comments_create' movie.pk %}" method="POST">
 {% csrf_token %}
 {{ comment_form }}
 <input type="submit" />
 </form>
 
-
-
-    
-<hr>
-  <a href="{% url "movies:index" %}">[back]</a>
 {% endblock %}

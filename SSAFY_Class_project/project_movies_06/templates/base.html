@@ -13,7 +13,7 @@
         <div class="d-flex justify-content-between">
           {% if request.user.is_authenticated %}
            
-            <h1><a href="{% url "accounts:profile" request.user.username %}"><button type="button" class="btn btn-light">{{request.user.username}}</button></a></h1>
+            <h1><a href="{% url "accounts:profile" request.user.username %}"><button type="button" class="btn btn-secondary mr-2">{{request.user.username}}</button></a></h1>
           
             <div class="d-flex justify-content-between" >
             <a style="height: 50%;" href="{% url 'accounts:update' %}"><button type="button" class="btn btn-light">Update</button></a>

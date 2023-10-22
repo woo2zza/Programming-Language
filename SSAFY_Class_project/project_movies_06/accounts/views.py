@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST, require_http_methods
 from django.contrib.auth.forms import AuthenticationForm
@@ -106,13 +106,25 @@ def profile(request, username):
     return render(request , 'accounts/profile.html', context)
 
 @login_required
+@require_http_methods(['GET', 'POST'])
 def follow(request, user_pk):
-    User = get_user_model()
-    you = User.objects.get(pk=user_pk)
-    if you != request.user:
-        if you.followers.filter(pk=request.user.pk).exists():
-            you.followers.remove(request.user)
-        else:
-            you.followers.add(request.user)
-    return redirect('accounts:profile', you.username)
+    you = get_object_or_404(get_user_model(), pk=user_pk)
+    me = request.user
 
+    if request.method == 'POST':
+        if me != you:
+            if me in you.followers.all():
+                you.followers.remove(me)
+            else:
+                you.followers.add(me)
+        return redirect('accounts:profile', you.username)
+    else:
+        followers = you.followers.all()
+        followings = you.followings.all()
+
+        context = {
+            'you': you,
+            'followers': followers,
+            'followings': followings,
+        }
+        return render(request, 'accounts/follow_list.html', context)

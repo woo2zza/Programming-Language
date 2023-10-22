@@ -4,35 +4,124 @@
 
 <h1>{{ person.username }}님의 프로필</h1>
 
-<hr />
 
+
+<hr />
+<div class="alert alert-secondary" role="alert">
 <h2>영화 목록</h2>
 {% for movie in person.movie_set.all %}
   <p><a href="{% url "movies:detail" movie.pk %}" style="text-decoration: none;">{{ movie.title }}</a></p>
 {% endfor %}
+</div>
+<br><br>
 
 
-<h2>{{ person.username }}님이 좋아요를 누른 게시글</h2>
-{% for movie in person.like_movies.all %}
-  <p><a href="{% url "movies:detail" movie.pk %}" style="text-decoration: none;">{{ movie.title }}</a></p>
-{% endfor %}
 
 
-<a href="{% url "movies:index" %}" style="text-decoration: none;">[BACK]</a>
-
-<div>
-  팔로잉 : {{ person.followings.count }} 
-  팔로워 : {{ person.followers.count }}
-  {% if request.user != person  %}
-    <form action="{% url "accounts:follow" person.pk %}" method = 'POST'>
-      {% csrf_token %}
-      {% if request.user in person.followers.all %}
-      <input type="submit" value = 'Unfollow'>
+  <p class="d-inline-flex gap-1">
+    <a data-bs-toggle="collapse" href="#liked_list" role="button" aria-expanded="false" aria-controls="liked_list" class="btn btn-light">
+      {{ person.username }}님이 좋아요를 누른 게시글
+    </a>
+  </p>
+  <div class="collapse" id="liked_list">
+    <div class="card card-body">
+      <h3>Liked Movie List</h3>
+      <hr>
+      {% if person.like_movies.all|length %}
+      <ul>
+          <li>
+              <h5>
+                  {% for movie in person.like_movies.all %}
+                      <a href="{% url "movies:detail" movie.pk %}">{{ movie.title }}</a>
+                  {% endfor %}
+              </h5>
+          </li>
+      </ul>
       {% else %}
-      <input type="submit" value = 'Follow'>
+      <p>좋아요한 영화가 없습니다.</p>
       {% endif %}
-  </form>
-  {% endif %}
+    </div>
+  </div>
+  <p></p>
+  <div style="display: flex; justify-content:space-between;"> 
+    <div>
+      <h4>
+        <div style="display: flex; justify-content:space-between;"> 
+          <p class="d-inline-flex gap-1">
+            <a data-bs-toggle="collapse" href="#following" role="button" aria-expanded="false" aria-controls="following" class="btn btn-light">
+              팔로잉
+            </a>
+            <h4>
+              : {{ person.followings.all|length }}
+            </h4>
+          </div>
+        </p>
+        <div class="collapse" id="following">
+          <div class="card card-body">
+            <h3>Following List</h3>
+            <hr>
+            {% if followings|length %}
+            {% for following in followings %}
+                <h1>
+                <ul>
+                    <li>
+                        <a href="{% url "accounts:profile" user %}">{{ following }}</a>
+                    </li>
+                </ul>
+                </h1>
+            {% endfor %}
+            {% else %}
+                <p>인원이 없습니다.</p>
+            {% endif %}
+        </div>
+      </h4>
+      <div>
+        <h4>
+          <div style="display: flex; justify-content:space-between;"> 
+            <p class="d-inline-flex gap-1">
+              <a data-bs-toggle="collapse" href="#follower" role="button" aria-expanded="false" aria-controls="follower" class="btn btn-light">
+                팔로워
+              </a>
+              <h4>
+                : {{ person.followers.all|length }}
+              </h4>
+            </div>
+          </p>
+          <div class="collapse" id="follower">
+            <div class="card card-body">
+              <h3>Follower List</h3>
+                {% if followers|length %}
+                {% for follower in followers %}
+                    <h1>
+                    <ul>
+                        <li>
+                            <a href="{% url "accounts:profile" user %}">{{ follower }}</a>
+                        </li>
+                    </ul>
+                    </h1>
+                {% endfor %}
+                {% else %}
+                    <p>인원이 없습니다.</p>
+                {% endif %}
+          </div>
+        </h4>
+    </div>
+    {% if user != person %}
+      <div>
+        <form action="{% url 'accounts:follow' person.pk %}" method="POST">
+          {% csrf_token %}
+          {% if user in person.followers.all %}
+            <button class="btn btn-outline-primary btn-sm">팔로우 취소</button>
+          {% else %}
+            <button class="btn btn-primary btn-sm">팔로우</button>
+          {% endif %}
+        </form>
+      </div>
+    {% endif %}
   
+  <p></p>
+  <a href="{% url 'movies:index' %}" class="btn btn-secondary btn-sm">이전</a>
+
+
 </div>
 {% endblock content %}

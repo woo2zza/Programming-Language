@@ -1,32 +1,40 @@
 {% extends "base.html" %}
 
+{% load bootstrap5 %}
+
 {% block content %}
 
 
 <br><br><br><h3>INDEX PAGE</h3>
 
 <hr>
-  <a href="{% url "movies:create" %}">[CREATE]</a>
-  <hr>
+<a href="{% url "movies:create" %}" class ='btn btn-light"'>[CREATE]</a>
+<hr>
 
+<div class="card g-4" style="width: 18rem;" >
   {% for movie in movies %}
-  <a href="{% url 'movies:detail' movie.pk %}">
-    <p>
-      {{ movie.title }} 
-      {{ movie.content }}
+  <div class="card-body">
 
+  <a href="{% url 'movies:detail' movie.pk %}">
+    
+      <h5 class="card-title btn btn-light" >{{ movie.title }}</h5></a>
+      <p class="card-text">{{ movie.content }}</p>
+      <span>좋아요 {{ movie.like_users.all|length }} </span>
+      <div class="d-flex justify-content-between" >
       {% comment %} 좋아요 {% endcomment %}
       <form action="{% url 'movies:likes' movie.pk %}" method = 'POST'>
         {% csrf_token %}
         {% if request.user in movie.like_users.all %}
-          <input type="submit" value = '좋아요 취소'>
+        <input type="submit" value = '좋아요 취소' class="btn  btn-sm">
         {% else %}
-          <input type="submit" value = '좋아요'>
+        <input type="submit" value = '좋아요' class="btn  btn-sm">
         {% endif %}
-</form>     
-
-    </p>
-  </a>
+      </div>
+      </form>     
+      
+      
+   
+  </div>
   <hr> 
    {% endfor %}
 
