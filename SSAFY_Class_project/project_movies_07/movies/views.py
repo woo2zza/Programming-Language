@@ -63,3 +63,10 @@ def review_detail(request, review_pk):
             serializer.save()
             return Response(serializer.data)
 
+@api_view(['POST'])
+def review_create(request, movie_pk):
+    movie = get_object_or_404(Movie, movie_pk)
+    serializer = ReviewSerializer(data = request.data)
+    if serializer.is_valid(raise_exception=True):
+        serializer.save(movie=movie)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
