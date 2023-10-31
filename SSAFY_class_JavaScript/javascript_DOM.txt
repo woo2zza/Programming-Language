@@ -1,0 +1,20 @@
+선택 메서드
+document.querySelector  요소 선택
+document.querySelectorAll  해당요소 전부선택
+
+요소 조작
+document.createElement(태그이름)       태그 생성
+부모.appendChild()              자식요소 추가
+부모.removeChile()            자식요소 제거
+
+속성 조작
+.classList.add('속성값')                클래스속성 추가
+.classList.remove('속성값')         클래스속성 값을 제거 (속성제거X)
+
+(속성명 예> 'id' 'class' 등등)
+.getAttribute('속성명')         속성값 가져오기 
+.setAttribute('속성명','속성값')     속성 그리고 값 설정/갱신
+.removeAttribure('속성명')     속성 지우기
+
+컨텐츠 조작
+.textcontent ()           컨텐츠 값 변경
