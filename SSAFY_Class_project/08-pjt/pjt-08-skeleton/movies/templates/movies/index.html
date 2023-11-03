@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="fw-bold">playing</h1><br>
+
+
+<div class="g-5 d-flex  " >
+
+  
+  {% for movie in movies  %}
+  <div class="m-1 card col-12 col-sm-6 col-md-4 col-lg-3 p-0 cardwidth" style="width: 18rem;">
+    <div align ="center">
+    <img src="{{movie.poster_path}}" class="card-img-top" alt={{ movie.title }} style="width: 17rem; height: 380px;" >
+  </div>
+    <div class="card-body ">
+      <h4 class="card-title moviename_font">{{ movie.title }}</h4><span class="badge badge-primary"></span>
+      <hr class="movieline">
+      
+      <p class="basic_font card-text-full" >
+        <span class="d-inline-block text-truncate" style="max-width: 200px;">{{ movie.overview }}</span><br>
+        개봉일 : {{ movie.release_date }}</p>
+
+      <a href="{% url 'movies:detail' movie.pk %}" target="_blank" class="btn btn-success button_font">영화정보 보러가기</a>
+    </div>
+  </div>
+  <p></p>     
+  
+  {% endfor %}
+</div>
+
+
+
+{% endblock content %}

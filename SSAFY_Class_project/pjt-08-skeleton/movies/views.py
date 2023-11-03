@@ -7,7 +7,6 @@ from rest_framework import status
 from .models import Movie, Genre
 from .serializers import MovieListSerializer, MovieSerializer, GenreSerializer
 from django.shortcuts import get_list_or_404, get_object_or_404
-from .forms import MovieForm
 
 # Create your views here.
 @require_safe

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load humanize %}
+<div  class="d-flex justify-content-center">
+<div  style="width: 50rem;">
+<div class="d-flex justify-content-center" style="margin-top: 50px;">
+  <h1 class="fw-bold my-2">{{ movie.title }}</h1>
+</div>
+  <div class="d-flex justify-content-center">
+    <h4>[개봉일: {{ movie.release_date }}]</h4>
+  </div>
+  
+    <div class="d-flex justify-content-center">
+      {% if movie.poster_path %}
+      <img style="width: 380px; height: 500px;" src="{{ movie.poster_path }}" alt="img" />
+      {% endif %}
+    </div>
+
+    <hr class="mt-4" />
+    <p class="fw-bold">🎬영화 내용</p>
+    <p>{{ movie.overview }}</p>
+    <hr />
+    <p class="fw-bold">✨평점: {{ movie.vote_average }} (총 {{ movie.vote_count|intcomma }}개의 평가)</p>
+    <p class="fw-bold">😎장르: 
+      {% for genre_no in movie_genre %}
+      {{ genre_no.name }}
+      {% if not forloop.last %}
+    <span>/</span>
+    {% endif %}
+    {% endfor %}
+  </p>
+  <hr />
+  <div class="d-flex justify-content-between">
+    <a href="{% url 'movies:index' %}" class="btn btn-primary mx-3">뒤로가기</a>
+    <div>
+      {% if request.user == movie.user %}
+      <a href="{% url 'movies:update' movie.pk %}" class="btn btn-secondary">수정</a>
+      
+      <form style="display: inline;" action="{% url 'movies:delete' movie.pk %}" method="POST">
+        {% csrf_token %}
+        <input type="submit" class="btn btn-danger" value="삭제" />
+      </form>
+      {% endif %}
+    </div>
+    </div>
+  </div>
+
+</div>
+  <hr />
+{% endblock %}
