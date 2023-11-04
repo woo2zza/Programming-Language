@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "movies",
     "community",
     "accounts",
+    'rest_framework',
     'django.contrib.humanize',
     "django.contrib.admin",
     "django.contrib.auth",
