@@ -5,8 +5,9 @@ from django.views.decorators.http import (
     require_http_methods,
 )
 from .models import Review, Comment
-from .forms import ReviewForm, CommentForm
+from .forms import ReviewForm, CommentForm, ReCommentForm
 from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
 
 @require_safe
 def index(request):
@@ -63,6 +64,42 @@ def create_comment(request, review_pk):
         'comments': review.comment_set.all(),
     }
     return render(request, 'community/detail.html', context)
+
+
+@login_required
+def comment_delete(request, review_pk, comment_pk):
+    comment = Comment.objects.get(pk=comment_pk)
+    if request.user == comment.user:
+        comment.delete()
+    return redirect('community:detail', review_pk)
+
+
+
+@login_required
+def recomment_create(request, review_pk, comment_pk):
+    review = Review.objects.get(pk=review_pk)
+    comment = Comment.objects.get(pk=comment_pk)
+    recomment_form=ReCommentForm(request.POST)
+    if recomment_form.is_valid():
+        recomment = recomment_form.save(commit=False)
+        recomment.user = request.user
+        recomment.review = review
+        recomment.rere_comment = comment
+        recomment_form.save()
+        return redirect('community:detail', review.pk)
+    context = {
+        'recomment':recomment,
+        'recomment_form':recomment_form,
+    }
+    return render(request, 'community/index.html', context)
+
+
+@login_required
+def recomment_delete(request, review_pk, recomment_pk):
+    reremment = Comment.objects.get(pk=recomment_pk)
+    if request.user == reremment.user:
+        reremment.delete()
+    return redirect('community:detail', review_pk)
 
 
 @require_POST

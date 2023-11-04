@@ -27,4 +27,8 @@ def detail(request, movie_pk):
 
 @require_safe
 def recommended(request):
-    pass
+    recommended = Movie.objects.all()
+    context = {
+        'recommended' : recommended
+    }
+    return render(request, 'movies/recommended.html', context)
