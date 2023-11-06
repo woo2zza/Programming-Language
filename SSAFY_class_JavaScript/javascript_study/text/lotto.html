@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>프로젝트</title>
+  <style>
+    
+
+
+
+    /* 스타일은 수정하지 않습니다. */
+    .ball {
+      width: 5rem;
+      height: 5rem;
+      margin: .5rem;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 5rem;
+      font-size: xx-large;
+      font-weight: bold;
+      background-color: crimson;
+      color: white;
+    }
+        /* 로또공이 가로로 출력되게 하기 위해서 flex 적용했습니다. */
+    .ball-container { 
+      display: flex;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>로또 추천 번호</h1>
+  <button id="lotto-btn">행운 번호 받기</button>
+  <div id="TopDiv"></div>
+  <div id="result"></div>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.21/lodash.min.js"></script>
+  <script>
+
+    // 우리가 하고자 하는것은
+    // 버튼을 클릭하면 이벤트 실행하기 
+
+    // 가장 먼저 버튼을 선택하자. 
+    const button = document.querySelector('#lotto-btn')
+        
+    // 버튼을 클릭했을때 이벤트 등록
+    button.addEventListener('click', function() {
+    
+      // div 태그 하나 만들고 (6개의 공을 담을 컨테이너 만들어 주었음)
+      const ballContainer = document.createElement('div')   
+     
+      // 랜덤 숫자 6개 만들기 (lodash 공식홈 들어가서 사용법 확인하기!)
+      const numbers = _.sampleSize(_.range(1, 46), 6)     
+      // console.log(numbers)
+      
+      // 공 만들기      
+      numbers.forEach((number) => {                  // 6개의 숫자 중에 한 숫자씩 뽑아서
+        const ball = document.createElement('div')   // div 태그 하나 만들어서 (공으로 사용할 태그를 만듬)
+        ball.classList.add('ball')                   // div 태그에 ball 이라는 클래스속성 추가 하고
+        ball.innerText = number                      // 랜덤으로 만든 숫자하나를 ball 에 text 값으로 넣은 후
+        ballContainer.appendChild(ball)              // 볼을 컨테이너에 넣어주기 (총 6개의 공이 컨테이너에 담길 것임)
+      })
+      
+      const result = document.querySelector('#result') // 만든 공을 id가 result인 div태그의 자식으로 추가
+      
+      // result.appendChild(ballContainer)
+      result.prepend(ballContainer)  //요소의 앞에 추가 (최근에 생성됨 번호가 위로 올라감)
+
+      // 컨테이너에 flex 먹여서 볼이 가롤 배치되도록 하자.
+      ballContainer.classList.add('ball-container') 
+     
+  })
+  </script>
+</body>
+</html>
+

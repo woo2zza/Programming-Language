@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <p>제출 하시려면 체크박스를 클릭해주세요.</p>
+
+  <div>
+    <h1>정말 중요한 내용</h1>
+  </div>
+
+  <form>
+  <label for="id_checkbox">체크박스:</label>
+  <input type="checkbox" id="id_checkbox">
+  </form>
+
+  <div id = 'output-box'></div>
+
+  <script>
+    
+    const checkbox = document.querySelector('#id_checkbox')
+
+    const check = function (event) {
+      document.getElementById('output-box').innerHTML += 'sorry'
+      event.preventDefault()
+    }
+    checkbox.addEventListener('click', check)
+
+
+    const h1 = document.querySelector('h1')
+
+    const copy = function (event) {
+      console.log(event)
+      event.preventDefault()
+      alert('복사금지')
+    }
+    h1.addEventListener('copy',copy)
+
+  </script>
+</body>
+</html>

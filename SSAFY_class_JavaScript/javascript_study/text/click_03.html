@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <button>클릭!!</button>
+  <img src="https://cdn.pixabay.com/photo/2014/01/24/04/36/roasted-250875__340.jpg">
+  <script>
+
+    const button = document.querySelector('button')
+    const img = document.querySelector('img')
+
+    const chicken_url = "https://cdn.pixabay.com/photo/2022/06/26/09/40/chicken-broasted-7284943__340.png"
+    const original_url = "https://cdn.pixabay.com/photo/2014/01/24/04/36/roasted-250875__340.jpg"
+  
+    const image = function (event) {
+      if (img.getAttribute('src') === original_url) {
+        img.setAttribute('src',chicken_url)
+      }
+
+      else{
+        img.setAttribute('src',original_url)
+      }
+    }
+
+    button.addEventListener('click', image)
+
+  </script>
+</body>
+</html>
