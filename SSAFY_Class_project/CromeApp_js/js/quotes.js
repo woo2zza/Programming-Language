@@ -1,4 +1,3 @@
-
 const quotes = [
   {
   quote: 'I never dreamed about success, I worked for it',
