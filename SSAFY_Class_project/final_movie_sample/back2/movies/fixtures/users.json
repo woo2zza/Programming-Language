@@ -1,0 +1,22 @@
+[
+{
+    "model": "accounts.user",
+    "pk": 1,
+    "fields": {
+        "password": "pbkdf2_sha256$600000$UaLs2HXPYhe7Teaakn59ar$TlHF0+OLy7SpoO0XQ5LJkPaeHG/eaYolg/FLS70NOwM=",
+        "last_login": null,
+        "is_superuser": true,
+        "first_name": "",
+        "last_name": "",
+        "email": "admin@ssafy.com",
+        "is_staff": true,
+        "is_active": true,
+        "date_joined": "2023-09-18T06:46:47.901Z",
+        "username": "admin@ssafy.com",
+        "profile_pic": "",
+        "groups": [],
+        "user_permissions": [],
+        "followings": []
+    }
+}
+]
