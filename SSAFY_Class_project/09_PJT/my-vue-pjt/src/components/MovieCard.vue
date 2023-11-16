@@ -34,7 +34,6 @@ const movies = defineProps({
 .card:hover {
   scale: 1.2;
   z-index: 1;
-
 }
 
 .card-img-top {
