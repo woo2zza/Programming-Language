@@ -26,3 +26,4 @@ urlpatterns = [
         views.like_article,
     ),
 ]
+
